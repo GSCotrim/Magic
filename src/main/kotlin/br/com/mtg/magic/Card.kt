@@ -2,6 +2,7 @@ package br.com.mtg.magic
 
 data class Card (
 
+        var id: Long?,
         var name: String,
         var neutralManaCost: Long,
         var coloredManaCost: Long,
@@ -19,6 +20,7 @@ data class Card (
     companion object {
         fun testCard(): Card {
             return Card(
+                    id = 12345,
                     name = "Test Card",
                     neutralManaCost = 123,
                     coloredManaCost = 321,
@@ -32,5 +34,27 @@ data class Card (
                     illustrationCredit = "The Dev Team"
             )
         }
+        fun fromEntity(entity: CardEntity): Card {
+            return Card(entity.id, entity.name, entity.neutralManaCost, entity.coloredManaCost, entity.colorIndicator,
+            entity.type, entity.subType, entity.textBox, entity.power, entity.toughness, entity.loyalty,
+            entity.illustrationCredit)
+        }
+    }
+    fun toEntity(): CardEntity {
+        return CardEntity(
+            id,
+            name,
+            neutralManaCost,
+            coloredManaCost,
+            colorIndicator,
+            type,
+            subType,
+            textBox,
+            power,
+            toughness,
+            loyalty,
+            illustrationCredit
+        )
     }
 }
+

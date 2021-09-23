@@ -32,7 +32,7 @@ CREATE TABLE cards (
 
 data.sql
 
-INSERT INTO TBL_EMPLOYEES (name, neutralManaCost, coloredManaCost, colorIndicator, type, subType, textBox, power, toughness, loyalty, illustrationCredit) VALUES
+INSERT INTO cards (name, neutralManaCost, coloredManaCost, colorIndicator, type, subType, textBox, power, toughness, loyalty, illustrationCredit) VALUES
   ('Test From Database', 111, 222, 'Black', 'Batata', 'Frita', 'Text Box Aqui', 9002, 3, 4, 'Gi');
 
 Quando acessar o console:

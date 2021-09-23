@@ -2,21 +2,30 @@ package br.com.mtg.magic
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
-class CardController(@Autowired private var cardBusiness: CardBusiness) {
+//@RequestMapping(consumes = [(MediaType.APPLICATION_JSON_VALUE)], produces = [(MediaType.APPLICATION_JSON_VALUE)])
+class CardController(
+    @Autowired private var cardBusiness: CardBusiness
+) {
 
     @RequestMapping(value = ["/cards"], method = [(RequestMethod.GET)])
     fun getCards(): ResponseEntity<Card> {
-
         val model = cardBusiness.justPrint()
         return ResponseEntity(model, HttpStatus.OK)
-
+    }
+    @RequestMapping(value = ["/cards/{cardId}"], method = [(RequestMethod.GET)])
+    fun getCardById(@PathVariable(value = "cardId") cardId: Long): ResponseEntity<Card> {
+        val card = cardBusiness.getCardById(cardId)
+        return ResponseEntity(card, HttpStatus.OK)
+    }
+    @RequestMapping(value = ["/cards"], method = [(RequestMethod.POST)])
+    fun createCard(@RequestBody card: Card): ResponseEntity<Card> {
+        val persistedCard = cardBusiness.createCard(card)
+        return ResponseEntity(persistedCard, HttpStatus.CREATED)
     }
 
 }
