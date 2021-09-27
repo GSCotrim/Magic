@@ -14,3 +14,11 @@ CREATE TABLE cards (
     loyalty int,
     illustration_credit VARCHAR(250)
 );
+
+DROP TABLE IF EXISTS decks;
+
+CREATE TABLE decks (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(250),
+    size int
+);

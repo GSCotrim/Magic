@@ -6,6 +6,5 @@ import org.springframework.stereotype.Component
 class DeckBusiness {
     fun deckPrinter(): Deck {
         return Deck.testDeck()
-
     }
 }
