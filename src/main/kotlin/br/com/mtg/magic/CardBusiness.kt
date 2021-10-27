@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component
 class CardBusiness(
     @Autowired private var cardRepository: CardRepository
 ) {
-
     fun justPrint(): Card {
         return Card.testCard()
     }
@@ -17,8 +16,8 @@ class CardBusiness(
     }
     fun createCard(card: Card): Card {
         val entity = card.toEntity()
-        val persistedProduct = cardRepository.save(entity)
-        return Card.fromEntity(persistedProduct)
+        val persistedCard = cardRepository.save(entity)
+        return Card.fromEntity(persistedCard)
     }
 //    fun jasjdja(): Card{
 //        cardRepository.findAll()

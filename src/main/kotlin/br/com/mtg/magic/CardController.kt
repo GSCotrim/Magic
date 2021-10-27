@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*
 class CardController(
     @Autowired private var cardBusiness: CardBusiness
 ) {
-
     @RequestMapping(value = ["/cards"], method = [(RequestMethod.GET)])
     fun getCards(): ResponseEntity<Card> {
         val model = cardBusiness.justPrint()

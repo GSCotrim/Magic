@@ -13,9 +13,19 @@ data class DeckEntity (
     @Column
     var name: String,
     @Column
-    var size: Int
+    var size: Int,
+    @Column
+    var black: Boolean,
+    @Column
+    var white: Boolean,
+    @Column
+    var green: Boolean,
+    @Column
+    var red: Boolean,
+    @Column
+    var blue: Boolean
 )
 {
     companion object;
-    constructor() : this(null,"name", 0)
+    constructor() : this(null,"name", 0, false, false, false, false, false)
 }

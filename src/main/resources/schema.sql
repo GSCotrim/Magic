@@ -20,5 +20,20 @@ DROP TABLE IF EXISTS decks;
 CREATE TABLE decks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(250),
-    size int
+    size int,
+    black bit,
+    white bit,
+    green bit,
+    red bit,
+    blue bit
 );
+
+DROP TABLE IF EXISTS deckCards;
+
+CREATE TABLE deckCards (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    deckId INT AUTO_INCREMENT PRIMARY KEY,
+    cardId int,
+    amount int
+);
+
