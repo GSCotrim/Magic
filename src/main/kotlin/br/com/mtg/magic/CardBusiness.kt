@@ -19,7 +19,7 @@ class CardBusiness(
         val persistedCard = cardRepository.save(entity)
         return Card.fromEntity(persistedCard)
     }
-//    fun jasjdja(): Card{
+//    fun blabla(): Card{
 //        cardRepository.findAll()
 //    }
 }
