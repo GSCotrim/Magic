@@ -16,14 +16,14 @@ data class DeckCard(
                 amount = 60
             )
         }
-        fun fromEntity(entity: deckCardEntity): DeckCard {
+        fun fromEntity(entity: DeckCardEntity): DeckCard {
             return br.com.mtg.magic.DeckCard(
                 entity.id, entity.deckId, entity.cardId, entity.amount
             )
         }
     }
-    fun toEntity(): deckCardEntity {
-        return deckCardEntity(
+    fun toEntity(): DeckCardEntity {
+        return DeckCardEntity(
             id,
             deckId,
             cardId,

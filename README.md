@@ -19,7 +19,7 @@ Por enquanto o código roda com banco de dados em memória, utilizando o *H2 dat
 
 `\decks`: Mostrará todos os decks disponíveis no banco de dados. No caso, temos somente um =) .
 
-`\decks\{deckId}`: Mostrará o deck requisitado, através de seu ID. O único deck presente no banco de dados, no momento, tem ID "1".
+`\decks\{deckId}`: Mostrará o deck requisitado, através de seu ID. O único deck presente no banco de dados, no momento, tem ID "2".
 
 Exemplo de *GET* de uma carta, feito através do software *Postman*:
 

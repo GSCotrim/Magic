@@ -4,7 +4,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "deckCards")
-data class deckCardEntity (
+data class DeckCardEntity (
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
