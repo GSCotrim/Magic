@@ -13,11 +13,11 @@ Por enquanto o código roda com banco de dados em memória, utilizando o *H2 dat
 #### GET Requests
 É possível conferir as cartas e decks presentes nesse banco de dados, através dos *GET requests* a seguir
 
-`\cards`: Mostrará todas as cartas disponíveis no banco de dados.
+`\cards`: Mostrará o "*test card*" presente na calsse modelo Card.
 
 `\cards\{cardId}`: Mostrará a carta requisitada, através de seu ID. Atualmente existem seis cartas no banco de dados, sendo uma somente um teste - ID: 123 - e cinco cartas oficiais de MTG - IDs: 1, 2, 3, 4 e 5.
 
-`\decks`: Mostrará todos os decks disponíveis no banco de dados. No caso, temos somente um =) .
+`\decks`: Mostrará o "*test deck*" presente na calsse modelo Deck.
 
 `\decks\{deckId}`: Mostrará o deck requisitado, através de seu ID. O único deck presente no banco de dados, no momento, tem ID "2".
 
