@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component
 class DeckBusiness(
     @Autowired private var deckRepository: DeckRepository
 ) {
-    fun deckPrinter(): Deck {
-        return Deck.testDeck()
+    fun getAllDecks(): List<Deck> {
+        val entities = deckRepository.findAll()
+        return entities.map {Deck.fromEntity(it)}
     }
     fun getDeckById(deckId: Long): Deck {
         val entity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }

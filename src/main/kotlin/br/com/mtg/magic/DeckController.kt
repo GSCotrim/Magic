@@ -10,8 +10,8 @@ class DeckController(
     @Autowired private var deckBusiness: DeckBusiness
 ) {
     @RequestMapping(value = ["/decks"], method = [(RequestMethod.GET)])
-    fun getDecks(): ResponseEntity<Deck> {
-        val model = deckBusiness.deckPrinter()
+    fun getDecks(): ResponseEntity<List<Deck>> {
+        val model = deckBusiness.getAllDecks()
         return ResponseEntity(model, HttpStatus.OK)
     }
     @RequestMapping(value = ["/decks/{deckId}"], method = [(RequestMethod.GET)])
