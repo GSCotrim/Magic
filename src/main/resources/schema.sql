@@ -28,12 +28,12 @@ CREATE TABLE decks (
     blue bit
 );
 
---DROP TABLE IF EXISTS deckCards;
---
---CREATE TABLE deckCards (
---    id INT AUTO_INCREMENT PRIMARY KEY,
---    deckId INT AUTO_INCREMENT PRIMARY KEY,
---    cardId int,
---    amount int
---);
+DROP TABLE IF EXISTS deck_cards;
+
+CREATE TABLE deck_cards (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    deck_id int,
+    card_id int,
+    amount int
+);
 

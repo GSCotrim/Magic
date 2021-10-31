@@ -19,4 +19,4 @@ INSERT INTO cards (id, name, neutral_mana_cost, colored_mana_cost, color_indicat
 INSERT INTO decks(id, name, size, black, white, green, red, blue) VALUES (2, 'Test From Database', 5, true, false, true, false, false);
 
 ---- Já que o id e o deck_id são ambos "Auto-increment", deixo eles de fora aqui??
---INSERT INTO deckCards(id, deck_id, card_id, amount) VALUES (7, 900, 678, 55)
+--INSERT INTO deck_cards(id, deck_id, card_id, amount) VALUES (7, 900, 678, 55)
