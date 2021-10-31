@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component
 class CardBusiness(
     @Autowired private var cardRepository: CardRepository
 ) {
-    fun justPrint(): Card {
-        return Card.testCard()
+    fun getAllCards(): List<Card> {
+        val entities = cardRepository.findAll()
+        return entities.map { Card.fromEntity(it) }
     }
     fun getCardById(cardId: Long): Card {
         val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }

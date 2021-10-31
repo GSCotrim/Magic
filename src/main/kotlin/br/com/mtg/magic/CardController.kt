@@ -11,8 +11,8 @@ class CardController(
     @Autowired private var cardBusiness: CardBusiness
 ) {
     @RequestMapping(value = ["/cards"], method = [(RequestMethod.GET)])
-    fun getCards(): ResponseEntity<Card> {
-        val model = cardBusiness.justPrint()
+    fun getCards(): ResponseEntity<List<Card>> {
+        val model = cardBusiness.getAllCards()
         return ResponseEntity(model, HttpStatus.OK)
     }
     @RequestMapping(value = ["/cards/{cardId}"], method = [(RequestMethod.GET)])
