@@ -8,7 +8,7 @@ CREATE TABLE cards (
     color_indicator VARCHAR(250),
     type VARCHAR(250),
     sub_type VARCHAR(250),
-    text_box VARCHAR(250),
+    text_box VARCHAR(500),
     power int,
     toughness int,
     loyalty int,
