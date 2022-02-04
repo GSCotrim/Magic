@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class CardBusiness(
+    @Autowired private var profile: ProfileInterface,
     @Autowired private var cardRepository: CardRepository,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {
@@ -16,6 +17,7 @@ class CardBusiness(
     }
     fun getCardById(cardId: Long): Card {
         log.info("Looking for card with id: $cardId")
+        log.info(profile.helloWorld())
         val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
         return Card.fromEntity(entity)
     }

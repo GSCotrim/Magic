@@ -29,6 +29,6 @@ class DeckCardBusiness(
         val deckCardsList = deckCardRepository.findAllByDeckId(deckId).orElse(listOf())
         var counter = currentAmount
         deckCardsList.forEach { counter += it.amount }
-        return counter <= 60
+        return counter <= 75
     }
 }
