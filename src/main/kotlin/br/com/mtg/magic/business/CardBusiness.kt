@@ -26,6 +26,12 @@ class CardBusiness(
         val persistedCard = cardRepository.save(entity)
         return Card.fromEntity(persistedCard)
     }
+    fun deleteCard(card: Card): String {
+        val entity = card.toEntity()
+        val deletedCard = cardRepository.delete(entity)
+        return "Carta deletada"
+    }
+
 
     // fun nomeDaFuncao(nomeDaVariavel: TipoDaVariavel): TipoDoRetornoDaFuncao {}
     // TipoDoRetornoDaFuncao nomeDaFuncao(TipoDaVariavel nomeDaVariavel) {}
