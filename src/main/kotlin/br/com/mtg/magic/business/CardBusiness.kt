@@ -26,10 +26,10 @@ class CardBusiness(
         val persistedCard = cardRepository.save(entity)
         return Card.fromEntity(persistedCard)
     }
-    fun deleteCard(card: Card): String {
-        val entity = card.toEntity()
-        val deletedCard = cardRepository.delete(entity)
-        return "Carta deletada"
+    fun deleteCard(cardId: Long): Card {
+        val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
+        cardRepository.delete(entity)
+        return Card.fromEntity(entity)
     }
 
 

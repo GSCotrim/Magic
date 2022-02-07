@@ -28,12 +28,10 @@ class CardController(
         return ResponseEntity(card, HttpStatus.OK)
     }
 
-//    TODO(Qual é a ResponseEntity no caso de um DELETE?)
     @RequestMapping(value = ["/cards/{cardId}"], method = [(RequestMethod.DELETE)])
     fun deleteCardById(@PathVariable(value = "cardId") cardId: Long): ResponseEntity<Card> {
-        val card = cardBusiness.getCardById(cardId)
-        val noLongerCard = cardBusiness.deleteCard(card)
-        return ResponseEntity(HttpStatus.OK)
+        val noLongerCard = cardBusiness.deleteCard(cardId)
+        return ResponseEntity(noLongerCard, HttpStatus.OK)
     }
 
 
