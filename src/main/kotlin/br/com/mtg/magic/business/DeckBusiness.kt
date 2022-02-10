@@ -20,4 +20,15 @@ class DeckBusiness(
         val persistedDeck = deckRepository.save(entity)
         return Deck.fromEntity(persistedDeck)
     }
+    fun deleteDeck(deckId: Long): Deck {
+        val entity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
+        deckRepository.delete(entity)
+        return Deck.fromEntity(entity)
+    }
+    fun editDeck(deck: Deck, deckId: Long): Deck {
+        val entity = deck.toEntity()
+        entity.id = deckId
+        deckRepository.save(entity)
+        return Deck.fromEntity(entity)
+    }
 }

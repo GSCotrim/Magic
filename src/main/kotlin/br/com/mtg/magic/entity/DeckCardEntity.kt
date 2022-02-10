@@ -19,5 +19,18 @@ data class DeckCardEntity (
 
 ) {
     companion object;
-    constructor() : this(null,0, 0, 0 )
+    constructor() : this(null, 0, 0, 0)
+
+    fun mergeFrom(otherDeckCard: DeckCardEntity) {
+        if (deckId != otherDeckCard.deckId) {
+            deckId = otherDeckCard.deckId
+        }
+        if (cardId != otherDeckCard.cardId) {
+            cardId = otherDeckCard.cardId
+        }
+        if (amount != otherDeckCard.amount) {
+            amount = otherDeckCard.amount
+        }
+    }
 }
+
