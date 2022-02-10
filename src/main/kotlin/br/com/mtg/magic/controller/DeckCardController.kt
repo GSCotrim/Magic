@@ -3,10 +3,7 @@ package br.com.mtg.magic
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class DeckCardController(
@@ -17,4 +14,27 @@ class DeckCardController(
         val persistedDeckCard = deckCardBusiness.createDeckCard(deckCard)
         return ResponseEntity(persistedDeckCard, HttpStatus.CREATED)
     }
+
+    @RequestMapping(value = ["/deckcards/{deckCardId}"], method = [(RequestMethod.DELETE)])
+    fun deleteDeckCardById(@PathVariable(value = "deckCardId") deckCardId: Long): ResponseEntity<DeckCard> {
+        val noLongerDeckCard = deckCardBusiness.deleteDeckCard(deckCardId)
+        return ResponseEntity(noLongerDeckCard, HttpStatus.OK)
+    }
+
+    @RequestMapping(value = ["deckcards/{deckCardId}"], method = [RequestMethod.PUT])
+    fun editDeckCardById(@RequestBody deckCard: DeckCard, @PathVariable(value = "deckCardId") deckCardId: Long): ResponseEntity<DeckCard> {
+        val alteredDeckCard = deckCardBusiness.editDeckCard(deckCard, deckCardId)
+        return ResponseEntity(alteredDeckCard, HttpStatus.OK)
+    }
+//    @RequestMapping(value = ["deckcards/{deckCardId}/{alteredProperty}/{change}"], method = [RequestMethod.PATCH])
+//    fun partialEditDeckCardById(@RequestBody deckCard: DeckCard, @PathVariable(value = "deckCardId") deckCardId: Long, @PathVariable(value = "alteredProperty") alteredProperty: String, @PathVariable(value = "change") change: Long): ResponseEntity<DeckCard> {
+//        val partiallyAlteredDeckCard = deckCardBusiness.partialEditDeckCard(deckCard, deckCardId, alteredProperty, change)
+//        return ResponseEntity(partiallyAlteredDeckCard, HttpStatus.OK)
+//    }
+    @RequestMapping(value = ["deckcards/{deckCardId}"], method = [RequestMethod.PATCH])
+    fun partialEditDeckCardById(@RequestBody deckCard: DeckCard, @PathVariable(value = "deckCardId") deckCardId: Long): ResponseEntity<DeckCard> {
+        val partiallyAlteredDeckCard = deckCardBusiness.partialEditDeckCard(deckCard, deckCardId)
+        return ResponseEntity(partiallyAlteredDeckCard, HttpStatus.OK)
+    }
 }
+

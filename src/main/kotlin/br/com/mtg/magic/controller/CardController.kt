@@ -33,6 +33,10 @@ class CardController(
         val noLongerCard = cardBusiness.deleteCard(cardId)
         return ResponseEntity(noLongerCard, HttpStatus.OK)
     }
-
+    @RequestMapping(value = ["cards/{CardId}"], method = [RequestMethod.PUT])
+    fun editCardById(@RequestBody Card: Card, @PathVariable(value = "CardId") CardId: Long): ResponseEntity<Card> {
+        val alteredCard = cardBusiness.editCard(Card, CardId)
+        return ResponseEntity(alteredCard, HttpStatus.OK)
+    }
 
 }
