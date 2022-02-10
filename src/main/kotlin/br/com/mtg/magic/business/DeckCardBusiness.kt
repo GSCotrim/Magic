@@ -53,8 +53,9 @@ class DeckCardBusiness(
 //        else if (smallAlteredProperty == "amount") {
 //            entity.amount = change
 //        }
-////        else
-////            Throw{ DeckCardPropertyNotFoundException() }
+//        else {
+//            throw DeckCardPropertyNotFoundException()
+//        }
 //        deckCardRepository.save(entity)
 //        return DeckCard.fromEntity(entity)
 //    }
@@ -63,16 +64,14 @@ class DeckCardBusiness(
         val dataBaseEntity = deckCardRepository.findById(deckCardId).orElseThrow{ DeckCardNotFoundException() }
         val entity = deckCard.toEntity()
 
-        if (entity.deckId != dataBaseEntity.deckId) {
-            dataBaseEntity.deckId = entity.deckId
-        }
-        else if (entity.cardId != dataBaseEntity.cardId) {
-            dataBaseEntity.cardId = entity.cardId
-        }
-        else if (entity.amount != dataBaseEntity.amount) {
-            dataBaseEntity.amount = entity.amount
-        }
 
+        if (entity.amount != dataBaseEntity.amount) {
+            val deltaAmount = entity.amount - dataBaseEntity.amount
+            if (!validateCardAmount(dataBaseEntity.deckId, deltaAmount)){
+                throw TooManyCardsInDeckException()
+            }
+        }
+        dataBaseEntity.mergeFrom(entity)
         deckCardRepository.save(dataBaseEntity)
         return DeckCard.fromEntity(dataBaseEntity)
     }

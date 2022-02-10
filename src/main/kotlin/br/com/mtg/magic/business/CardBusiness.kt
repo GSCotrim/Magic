@@ -32,11 +32,11 @@ class CardBusiness(
         return Card.fromEntity(entity)
     }
 
-    fun editCard(Card: Card, CardId: Long): Card {
-        val entity = Card.toEntity()
-        entity.id = CardId
+    fun editCard(card: Card, cardId: Long): Card {
+        val entity = card.toEntity()
+        entity.id = cardId
         cardRepository.save(entity)
-        return br.com.mtg.magic.Card.fromEntity(entity)
+        return Card.fromEntity(entity)
     }
 
     // fun nomeDaFuncao(nomeDaVariavel: TipoDaVariavel): TipoDoRetornoDaFuncao {}
