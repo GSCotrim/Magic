@@ -38,4 +38,10 @@ class DeckController(
         val alteredDeck = deckBusiness.editDeck(deck, deckId)
         return ResponseEntity(alteredDeck, HttpStatus.OK)
     }
+
+    @RequestMapping(value = ["decks/{deckId}"], method = [RequestMethod.PATCH])
+    fun partialEditDeckById(@RequestBody deck: Deck, @PathVariable(value = "deckId") deckId: Long): ResponseEntity<Deck> {
+        val partiallyAlteredDeck = deckBusiness.partialEditDeck(deck, deckId)
+        return ResponseEntity(partiallyAlteredDeck, HttpStatus.OK)
+    }
 }

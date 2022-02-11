@@ -26,11 +26,7 @@ class DeckCardController(
         val alteredDeckCard = deckCardBusiness.editDeckCard(deckCard, deckCardId)
         return ResponseEntity(alteredDeckCard, HttpStatus.OK)
     }
-//    @RequestMapping(value = ["deckcards/{deckCardId}/{alteredProperty}/{change}"], method = [RequestMethod.PATCH])
-//    fun partialEditDeckCardById(@RequestBody deckCard: DeckCard, @PathVariable(value = "deckCardId") deckCardId: Long, @PathVariable(value = "alteredProperty") alteredProperty: String, @PathVariable(value = "change") change: Long): ResponseEntity<DeckCard> {
-//        val partiallyAlteredDeckCard = deckCardBusiness.partialEditDeckCard(deckCard, deckCardId, alteredProperty, change)
-//        return ResponseEntity(partiallyAlteredDeckCard, HttpStatus.OK)
-//    }
+
     @RequestMapping(value = ["deckcards/{deckCardId}"], method = [RequestMethod.PATCH])
     fun partialEditDeckCardById(@RequestBody deckCard: DeckCard, @PathVariable(value = "deckCardId") deckCardId: Long): ResponseEntity<DeckCard> {
         val partiallyAlteredDeckCard = deckCardBusiness.partialEditDeckCard(deckCard, deckCardId)

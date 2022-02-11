@@ -31,4 +31,11 @@ class DeckBusiness(
         deckRepository.save(entity)
         return Deck.fromEntity(entity)
     }
+    fun partialEditDeck(deck: Deck, deckId: Long): Deck {
+        val dataBaseEntity = deckRepository.findById(deckId).orElseThrow{ DeckNotFoundException() }
+        val entity = deck.toEntity()
+        dataBaseEntity.mergeFrom(entity)
+        deckRepository.save(dataBaseEntity)
+        return Deck.fromEntity(dataBaseEntity)
+    }
 }

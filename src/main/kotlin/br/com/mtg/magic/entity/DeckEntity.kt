@@ -28,4 +28,28 @@ data class DeckEntity (
 {
     companion object;
     constructor() : this(null,"name", 0, false, false, false, false, false)
+
+    fun mergeFrom(otherDeck: DeckEntity) {
+        if (name != otherDeck.name) {
+            name = otherDeck.name
+        }
+        if (size != otherDeck.size) {
+            size = otherDeck.size
+        }
+        if (black != otherDeck.black) {
+            black = otherDeck.black
+        }
+        if (white != otherDeck.white) {
+            white = otherDeck.white
+        }
+        if (green != otherDeck.green) {
+            green = otherDeck.green
+        }
+        if (red != otherDeck.red) {
+            red = otherDeck.red
+        }
+        if (blue != otherDeck.blue) {
+            blue = otherDeck.blue
+        }
+    }
 }
