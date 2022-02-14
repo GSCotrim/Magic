@@ -36,5 +36,42 @@ data class CardEntity (
 ) {
     companion object;
     constructor() : this(null,"name", 0, 0, "colorIndicator", "type", "subType", "textBox", 0, 0, 0, "illustrationCredit" )
+
+    fun mergeFrom(otherCard: CardEntity) {
+        if (name != otherCard.name) {
+            name = otherCard.name
+        }
+        if (neutralManaCost != otherCard.neutralManaCost) {
+            neutralManaCost = otherCard.neutralManaCost
+        }
+        if (coloredManaCost != otherCard.coloredManaCost) {
+            coloredManaCost = otherCard.coloredManaCost
+        }
+        if (colorIndicator != otherCard.colorIndicator) {
+            colorIndicator = otherCard.colorIndicator
+        }
+        if (type != otherCard.type) {
+            type = otherCard.type
+        }
+        if (subType != otherCard.subType) {
+            subType = otherCard.subType
+        }
+        if (textBox != otherCard.textBox) {
+            textBox = otherCard.textBox
+        }
+        if (power != otherCard.power) {
+            power = otherCard.power
+        }
+        if (toughness != otherCard.toughness) {
+            toughness = otherCard.toughness
+        }
+        if (loyalty != otherCard.loyalty) {
+            loyalty = otherCard.loyalty
+        }
+        if (illustrationCredit != otherCard.illustrationCredit) {
+            illustrationCredit = otherCard.illustrationCredit
+        }
+    }
+
 }
 

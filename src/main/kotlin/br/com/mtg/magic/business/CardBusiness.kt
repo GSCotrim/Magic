@@ -39,6 +39,14 @@ class CardBusiness(
         return Card.fromEntity(entity)
     }
 
+    fun partialEditCard(card: Card, cardId: Long): Card {
+        val dataBaseEntity = cardRepository.findById(cardId).orElseThrow{ CardNotFoundException() }
+        val entity = card.toEntity()
+        dataBaseEntity.mergeFrom(entity)
+        cardRepository.save(dataBaseEntity)
+        return Card.fromEntity(dataBaseEntity)
+    }
+
     // fun nomeDaFuncao(nomeDaVariavel: TipoDaVariavel): TipoDoRetornoDaFuncao {}
     // TipoDoRetornoDaFuncao nomeDaFuncao(TipoDaVariavel nomeDaVariavel) {}
     // fun soma(x: int, y: int): int {}

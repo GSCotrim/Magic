@@ -38,5 +38,9 @@ class CardController(
         val alteredCard = cardBusiness.editCard(Card, CardId)
         return ResponseEntity(alteredCard, HttpStatus.OK)
     }
-
+    @RequestMapping(value = ["cards/{cardId}"], method = [RequestMethod.PATCH])
+    fun partialEditCardById(@RequestBody card: Card, @PathVariable(value = "cardId") cardId: Long): ResponseEntity<Card> {
+        val partiallyAlteredCard = cardBusiness.partialEditCard(card, cardId)
+        return ResponseEntity(partiallyAlteredCard, HttpStatus.OK)
+    }
 }

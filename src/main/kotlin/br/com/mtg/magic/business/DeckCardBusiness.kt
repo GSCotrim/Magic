@@ -40,31 +40,9 @@ class DeckCardBusiness(
         return DeckCard.fromEntity(entity)
     }
 
-//    fun partialEditDeckCard(deckCard: DeckCard, deckCardId: Long, alteredProperty: String, change: Long): DeckCard {
-//        val entity = deckCard.toEntity()
-//        val smallAlteredProperty = alteredProperty.lowercase()
-//        entity.id = deckCardId
-//        if (smallAlteredProperty == "deckid") {
-//            entity.deckId = change
-//        }
-//        else if (smallAlteredProperty == "cardid") {
-//            entity.cardId = change
-//        }
-//        else if (smallAlteredProperty == "amount") {
-//            entity.amount = change
-//        }
-//        else {
-//            throw DeckCardPropertyNotFoundException()
-//        }
-//        deckCardRepository.save(entity)
-//        return DeckCard.fromEntity(entity)
-//    }
-
     fun partialEditDeckCard(deckCard: DeckCard, deckCardId: Long): DeckCard {
         val dataBaseEntity = deckCardRepository.findById(deckCardId).orElseThrow{ DeckCardNotFoundException() }
         val entity = deckCard.toEntity()
-
-
         if (entity.amount != dataBaseEntity.amount) {
             val deltaAmount = entity.amount - dataBaseEntity.amount
             if (!validateCardAmount(dataBaseEntity.deckId, deltaAmount)){
