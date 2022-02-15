@@ -3,6 +3,7 @@ package br.com.mtg.magic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties
 import org.springframework.stereotype.Component
 
 @Component
@@ -19,6 +20,8 @@ class CardBusiness(
         log.info("Looking for card with id: $cardId")
         log.info(profile.helloWorld())
         val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
+        var jedis = RedisProperties.Jedis()
+        jedis.(entity.id.toString(), entity.name) //TODO: Descobrir o comando necessário.
         return Card.fromEntity(entity)
     }
     fun createCard(card: Card): Card {

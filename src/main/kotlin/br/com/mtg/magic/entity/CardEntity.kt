@@ -1,5 +1,6 @@
 package br.com.mtg.magic
 
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties
 import javax.persistence.*
 
 @Entity
@@ -72,6 +73,4 @@ data class CardEntity (
             illustrationCredit = otherCard.illustrationCredit
         }
     }
-
 }
-

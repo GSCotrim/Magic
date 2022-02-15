@@ -1,6 +1,8 @@
 package br.com.mtg.magic
 
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties.Jedis
 import javax.persistence.*
+
 
 @Entity
 @Table(name = "decks")
@@ -52,4 +54,5 @@ data class DeckEntity (
             blue = otherDeck.blue
         }
     }
+
 }

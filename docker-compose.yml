@@ -9,3 +9,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "12345"
       MYSQL_ROOT_HOST: "%"
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+
