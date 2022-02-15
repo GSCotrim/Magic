@@ -5,7 +5,8 @@ import org.springframework.stereotype.Component
 
 @Component
 class DeckBusiness(
-    @Autowired private var deckRepository: DeckRepository
+    @Autowired private var deckRepository: DeckRepository,
+    @Autowired private var jedisHandler: JedisHandler
 ) {
     fun getAllDecks(): List<Deck> {
         val entities = deckRepository.findAll()
@@ -13,6 +14,7 @@ class DeckBusiness(
     }
     fun getDeckById(deckId: Long): Deck {
         val entity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
+        jedisHandler.storingDeckNameRedis(entity)
         return Deck.fromEntity(entity)
     }
     fun createDeck(deck: Deck): Deck {

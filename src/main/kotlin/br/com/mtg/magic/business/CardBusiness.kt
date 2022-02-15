@@ -3,13 +3,14 @@ package br.com.mtg.magic
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties
 import org.springframework.stereotype.Component
+import redis.clients.jedis.Jedis
 
 @Component
 class CardBusiness(
     @Autowired private var profile: ProfileInterface,
     @Autowired private var cardRepository: CardRepository,
+    @Autowired private var jedisHandler: JedisHandler,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {
     fun getAllCards(): List<Card> {
@@ -20,8 +21,7 @@ class CardBusiness(
         log.info("Looking for card with id: $cardId")
         log.info(profile.helloWorld())
         val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
-        var jedis = RedisProperties.Jedis()
-        jedis.(entity.id.toString(), entity.name) //TODO: Descobrir o comando necessário.
+        jedisHandler.storingCardNameRedis(entity)
         return Card.fromEntity(entity)
     }
     fun createCard(card: Card): Card {
