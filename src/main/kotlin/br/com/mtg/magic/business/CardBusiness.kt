@@ -4,7 +4,6 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import redis.clients.jedis.Jedis
 
 @Component
 class CardBusiness(
@@ -17,18 +16,27 @@ class CardBusiness(
         val entities = cardRepository.findAll()
         return entities.map { Card.fromEntity(it) }
     }
+
     fun getCardById(cardId: Long): Card {
         log.info("Looking for card with id: $cardId")
-        log.info(profile.helloWorld())
         val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
-        jedisHandler.storingCardNameRedis(entity)
+        val cacheItem = jedisHandler.getCard(entity)
+        if (cacheItem != null) {
+            log.info("$cacheItem already exists.")
+        }
+        else {
+            jedisHandler.storingCardNameRedis(entity)
+            log.info("Card ID ${entity.id} was registered.")
+        }
         return Card.fromEntity(entity)
     }
+
     fun createCard(card: Card): Card {
         val entity = card.toEntity()
         val persistedCard = cardRepository.save(entity)
         return Card.fromEntity(persistedCard)
     }
+
     fun deleteCard(cardId: Long): Card {
         val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
         cardRepository.delete(entity)
@@ -59,3 +67,6 @@ class CardBusiness(
 //        cardRepository.findAll()
 //    }
 }
+
+
+
