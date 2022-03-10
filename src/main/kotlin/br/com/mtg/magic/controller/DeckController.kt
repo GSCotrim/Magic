@@ -1,5 +1,6 @@
 package br.com.mtg.magic
 
+import br.com.mtg.magic.model.FullDeck
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -43,5 +44,12 @@ class DeckController(
     fun partialEditDeckById(@RequestBody deck: Deck, @PathVariable(value = "deckId") deckId: Long): ResponseEntity<Deck> {
         val partiallyAlteredDeck = deckBusiness.partialEditDeck(deck, deckId)
         return ResponseEntity(partiallyAlteredDeck, HttpStatus.OK)
+    }
+
+    @RequestMapping(value = ["decks/{deckId}/full"], method = [RequestMethod.GET])
+    fun showDeckCardsById(@PathVariable(value = "deckId") deckId: Long): ResponseEntity<FullDeck> {
+        val fullDeck = deckBusiness.getAllCardsFromDeck(deckId)
+        return ResponseEntity(fullDeck, HttpStatus.OK)
+
     }
 }

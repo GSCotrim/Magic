@@ -1,5 +1,7 @@
 package br.com.mtg.magic
 
+import br.com.mtg.magic.model.CardInDeck
+import br.com.mtg.magic.model.FullDeck
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -7,6 +9,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class DeckBusiness(
+
+    @Autowired private var cardRepository: CardRepository,
+    @Autowired private var deckCardRepository: DeckCardRepository,
     @Autowired private var deckRepository: DeckRepository,
     @Autowired private var jedisHandler: JedisHandler,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
@@ -14,7 +19,7 @@ class DeckBusiness(
 
     fun getAllDecks(): List<Deck> {
         val entities = deckRepository.findAll()
-        return entities.map {Deck.fromEntity(it)}
+        return entities.map { Deck.fromEntity(it) }
     }
 
     fun getDeckById(deckId: Long): Deck {
@@ -23,8 +28,7 @@ class DeckBusiness(
         val cacheItem = jedisHandler.getDeck(entity)
         if (cacheItem != null) {
             log.info("$cacheItem already exists.")
-        }
-        else {
+        } else {
             jedisHandler.storingDeckNameRedis(entity)
             log.info("Deck ID ${entity.id} was registered.")
         }
@@ -51,10 +55,25 @@ class DeckBusiness(
     }
 
     fun partialEditDeck(deck: Deck, deckId: Long): Deck {
-        val dataBaseEntity = deckRepository.findById(deckId).orElseThrow{ DeckNotFoundException() }
+        val dataBaseEntity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
         val entity = deck.toEntity()
         dataBaseEntity.mergeFrom(entity)
         deckRepository.save(dataBaseEntity)
         return Deck.fromEntity(dataBaseEntity)
+    }
+
+    fun getAllCardsFromDeck(deckId: Long): FullDeck {
+        val deck = getDeckById(deckId)
+        val cardsList = mutableListOf<CardInDeck>()
+        val deckCardsList = deckCardRepository.findAllByDeckId(deckId).orElse(listOf())
+        deckCardsList.forEach {
+            val entity = cardRepository.findById(it.cardId).orElseThrow { CardNotFoundException() }
+            val card = Card.fromEntity(entity)
+            val cardInDeck = CardInDeck(card, it.amount)
+            cardsList.add(cardInDeck)
+        }
+        val fullDeck = FullDeck(deck, cardsList)
+
+        return fullDeck
     }
 }
