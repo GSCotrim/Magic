@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 class CardBusiness(
     @Autowired private var profile: ProfileInterface,
     @Autowired private var cardRepository: CardRepository,
-    @Autowired private var jedisHandler: JedisHandler,
+    @Autowired private var intern: Intern,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {
     fun getAllCards(): List<Card> {
@@ -19,16 +19,8 @@ class CardBusiness(
 
     fun getCardById(cardId: Long): Card {
         log.info("Looking for card with id: $cardId")
-        val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
-        val cacheItem = jedisHandler.getCard(entity)
-        if (cacheItem != null) {
-            log.info("$cacheItem already exists.")
-        }
-        else {
-            jedisHandler.storingCardNameRedis(entity)
-            log.info("Card ID ${entity.id} was registered.")
-        }
-        return Card.fromEntity(entity)
+        val card = intern.checkAndStashCard(cardId)
+        return card
     }
 
     fun createCard(card: Card): Card {
@@ -51,7 +43,7 @@ class CardBusiness(
     }
 
     fun partialEditCard(card: Card, cardId: Long): Card {
-        val dataBaseEntity = cardRepository.findById(cardId).orElseThrow{ CardNotFoundException() }
+        val dataBaseEntity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
         val entity = card.toEntity()
         dataBaseEntity.mergeFrom(entity)
         cardRepository.save(dataBaseEntity)

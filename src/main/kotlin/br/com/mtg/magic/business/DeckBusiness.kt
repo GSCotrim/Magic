@@ -13,7 +13,7 @@ class DeckBusiness(
     @Autowired private var cardRepository: CardRepository,
     @Autowired private var deckCardRepository: DeckCardRepository,
     @Autowired private var deckRepository: DeckRepository,
-    @Autowired private var jedisHandler: JedisHandler,
+    @Autowired private var intern: Intern,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {
 
@@ -24,21 +24,21 @@ class DeckBusiness(
 
     fun getDeckById(deckId: Long): Deck {
         log.info("Looking for deck with id: $deckId")
-        val entity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
-        val cacheItem = jedisHandler.getDeck(entity)
-        if (cacheItem != null) {
-            log.info("$cacheItem already exists.")
-        } else {
-            jedisHandler.storingDeckNameRedis(entity)
-            log.info("Deck ID ${entity.id} was registered.")
-        }
-        return Deck.fromEntity(entity)
+        val deck = intern.checkAndStashDeck(deckId)
+        return deck
     }
 
+//    fun getDeck(deckId: Long): Deck {
+//        log.info("Looking for deck with id: $deckId")
+//        foo.meDaUmDeck(idDeck)
+//        return Deck.fromEntity(entity)
+//    }
+
     fun createDeck(deck: Deck): Deck {
-        val entity = deck.toEntity()
-        val persistedDeck = deckRepository.save(entity)
-        return Deck.fromEntity(persistedDeck)
+//        val entity = deck.toEntity()
+//        val persistedDeck = deckRepository.save(entity)
+        val createdDeck = intern.helpingCreateDeck(deck)
+        return createdDeck
     }
 
     fun deleteDeck(deckId: Long): Deck {
