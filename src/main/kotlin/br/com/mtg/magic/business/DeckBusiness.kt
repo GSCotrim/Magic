@@ -18,8 +18,8 @@ class DeckBusiness(
 ) {
 
     fun getAllDecks(): List<Deck> {
-        val entities = deckRepository.findAll()
-        return entities.map { Deck.fromEntity(it) }
+        val deckList = intern.helpingGetAllDecks()
+        return deckList
     }
 
     fun getDeckById(deckId: Long): Deck {
@@ -35,31 +35,23 @@ class DeckBusiness(
 //    }
 
     fun createDeck(deck: Deck): Deck {
-//        val entity = deck.toEntity()
-//        val persistedDeck = deckRepository.save(entity)
         val createdDeck = intern.helpingCreateDeck(deck)
         return createdDeck
     }
 
     fun deleteDeck(deckId: Long): Deck {
-        val entity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
-        deckRepository.delete(entity)
-        return Deck.fromEntity(entity)
+        val vaporizedDeck = intern.iCanDeleteDecksForYou(deckId)
+        return vaporizedDeck
     }
 
     fun editDeck(deck: Deck, deckId: Long): Deck {
-        val entity = deck.toEntity()
-        entity.id = deckId
-        deckRepository.save(entity)
-        return Deck.fromEntity(entity)
+        val editedDeck = intern.justEditTheDeck(deck, deckId)
+        return editedDeck
     }
 
     fun partialEditDeck(deck: Deck, deckId: Long): Deck {
-        val dataBaseEntity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
-        val entity = deck.toEntity()
-        dataBaseEntity.mergeFrom(entity)
-        deckRepository.save(dataBaseEntity)
-        return Deck.fromEntity(dataBaseEntity)
+        val partiallyEditedDeck = intern.justASliceOfDeck(deck, deckId)
+        return partiallyEditedDeck
     }
 
     fun getAllCardsFromDeck(deckId: Long): FullDeck {

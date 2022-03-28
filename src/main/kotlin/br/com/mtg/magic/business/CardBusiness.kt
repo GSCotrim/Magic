@@ -13,8 +13,8 @@ class CardBusiness(
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {
     fun getAllCards(): List<Card> {
-        val entities = cardRepository.findAll()
-        return entities.map { Card.fromEntity(it) }
+        val cardList = intern.helpingGetAllCards()
+        return cardList
     }
 
     fun getCardById(cardId: Long): Card {
@@ -24,30 +24,23 @@ class CardBusiness(
     }
 
     fun createCard(card: Card): Card {
-        val entity = card.toEntity()
-        val persistedCard = cardRepository.save(entity)
-        return Card.fromEntity(persistedCard)
+        val isThisYourCard = intern.helpingCreateCards(card)
+        return isThisYourCard
     }
 
     fun deleteCard(cardId: Long): Card {
-        val entity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
-        cardRepository.delete(entity)
-        return Card.fromEntity(entity)
+        val vaporizedCard = intern.iCanDeleteCardsForYou(cardId)
+        return vaporizedCard
     }
 
     fun editCard(card: Card, cardId: Long): Card {
-        val entity = card.toEntity()
-        entity.id = cardId
-        cardRepository.save(entity)
-        return Card.fromEntity(entity)
+        val editedCard = intern.justEditTheCard(card, cardId)
+        return editedCard
     }
 
     fun partialEditCard(card: Card, cardId: Long): Card {
-        val dataBaseEntity = cardRepository.findById(cardId).orElseThrow { CardNotFoundException() }
-        val entity = card.toEntity()
-        dataBaseEntity.mergeFrom(entity)
-        cardRepository.save(dataBaseEntity)
-        return Card.fromEntity(dataBaseEntity)
+        val partiallyEditedCard = intern.justASliceOfCard(card, cardId)
+        return partiallyEditedCard
     }
 
     // fun nomeDaFuncao(nomeDaVariavel: TipoDaVariavel): TipoDoRetornoDaFuncao {}
