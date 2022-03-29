@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component
 @Component
 class CardBusiness(
     @Autowired private var profile: ProfileInterface,
-    @Autowired private var cardRepository: CardRepository,
     @Autowired private var intern: Intern,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {

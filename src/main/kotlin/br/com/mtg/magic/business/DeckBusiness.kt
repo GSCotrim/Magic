@@ -1,6 +1,5 @@
 package br.com.mtg.magic
 
-import br.com.mtg.magic.model.CardInDeck
 import br.com.mtg.magic.model.FullDeck
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -56,14 +55,7 @@ class DeckBusiness(
 
     fun getAllCardsFromDeck(deckId: Long): FullDeck {
         val deck = getDeckById(deckId)
-        val cardsList = mutableListOf<CardInDeck>()
-        val deckCardsList = deckCardRepository.findAllByDeckId(deckId).orElse(listOf())
-        deckCardsList.forEach {
-            val entity = cardRepository.findById(it.cardId).orElseThrow { CardNotFoundException() }
-            val card = Card.fromEntity(entity)
-            val cardInDeck = CardInDeck(card, it.amount)
-            cardsList.add(cardInDeck)
-        }
+        val cardsList = intern.getEmAll(deckId)
         val fullDeck = FullDeck(deck, cardsList)
 
         return fullDeck

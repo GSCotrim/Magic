@@ -1,5 +1,6 @@
 package br.com.mtg.magic
 
+import br.com.mtg.magic.model.CardInDeck
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -10,6 +11,7 @@ class Intern(
     @Autowired private var jedisHandler: JedisHandler,
     @Autowired private var deckRepository: DeckRepository,
     @Autowired private var cardRepository: CardRepository,
+    @Autowired private var deckCardRepository: DeckCardRepository,
     private val log: Logger = LoggerFactory.getLogger(CardBusiness::class.java)
 ) {
     fun helpingCreateDeck(deck: Deck): Deck {
@@ -48,13 +50,15 @@ class Intern(
         return Deck.fromEntity(entity)
     }
 
-    fun justASliceOfDeck(deck: Deck, deckId: Long): Deck{
+    fun justASliceOfDeck(deck: Deck, deckId: Long): Deck {
         val dataBaseEntity = deckRepository.findById(deckId).orElseThrow { DeckNotFoundException() }
         val entity = deck.toEntity()
         dataBaseEntity.mergeFrom(entity)
         deckRepository.save(dataBaseEntity)
         return Deck.fromEntity(dataBaseEntity)
     }
+
+//----------------------------------------------------------------------------
 
     fun helpingCreateCards(card: Card): Card {
         val entity = card.toEntity()
@@ -100,7 +104,17 @@ class Intern(
         return Card.fromEntity(dataBaseEntity)
     }
 
-
+    fun getEmAll(deckId: Long): List<CardInDeck> {
+        val cardsList = mutableListOf<CardInDeck>()
+        val deckCardsList = deckCardRepository.findAllByDeckId(deckId).orElse(listOf())
+        deckCardsList.forEach {
+            val entity = cardRepository.findById(it.cardId).orElseThrow { CardNotFoundException() }
+            val card = Card.fromEntity(entity)
+            val cardInDeck = CardInDeck(card, it.amount)
+            cardsList.add(cardInDeck)
+        }
+        return cardsList
+    }
 //    fun meDaUmDeck(deckId): Deck {
 //        //preciso de um deck...
 //        deck = redis.getDeck()
